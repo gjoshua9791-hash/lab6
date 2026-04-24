@@ -31,7 +31,7 @@ export function validateStudent(student, students, editingId = null){
         errors.major = 'Major is required';
     }
     if (student.units === '' || isNaN(Number(student.units))) {
-        errors.units = 'Units is required and must be a number';
+        errors.units = 'Units are required and must be a number';
     } else {
         const units = Number(student.units);
         if (units < 0 || units > 24) {

@@ -39,7 +39,7 @@ export function validateStudent(student, students, editingId = null){
         }
     }
     const currentYear = new Date().getFullYear();
-    if (student.graduationYear === '' || isNaN(Number(student.gradutationYear))){
+    if (student.graduationYear === '' || isNaN(Number(student.graduationYear))){
         errors.graduationYear = 'Graduation Year is required and must be a number';
     } else {
         const graduationYear = Number(student.graduationYear);

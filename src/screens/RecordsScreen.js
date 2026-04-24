@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
 import { useStudents } from '../store/StudentContext';
-import { getAcademicStanding, getEnrollmentLoad, getRegistrationHold, getRiskLevel } from '../utils/derived';
+import StudentCard  from '../components/StudentCard';
+import { useNavigation } from '@react-navigation/native';
 
 export default function RecordsScreen() {
-    const { students, loadSampleData, clearAllStudents, isLoaded } = useStudents();
+    const { students, loadSampleData, clearAllStudents, deleteStudent, isLoaded } = useStudents();
+    const navigation = useNavigation();
 
     if(!isLoaded) {
         return (
@@ -23,37 +25,23 @@ export default function RecordsScreen() {
                 </View>
                 <View style={styles.buttonGroup}>
                 <Button title="Clear All Records" onPress={clearAllStudents} color="red" />
+                </View>
+                <View style={styles.buttonGroup}>
+                <Button title="Add New Student" onPress={() => navigation.navigate('StudentForm')} />
             </View>
 
             <FlatList
                 data={students}
                 keyExtractor={(item) => item.id}
                 ListEmptyComponent={<Text style={styles.empty}>No student records available.</Text>}
-                renderItem={({ item }) => {
-                    const standing = getAcademicStanding(item.gpa);
-                    const load = getEnrollmentLoad(item.units);
-                    const hold = getRegistrationHold(item);
-                    const level = getRiskLevel(item);
-                    
-                    return (
-                    <View style={styles.card}>
-                        <Text style={styles.name}>{item.name}</Text>
-                        <Text>Student ID: {item.studentId}</Text>
-                        <Text>Major: {item.major}</Text>
-                        <Text>GPA: {item.gpa}</Text>
-                        <Text>Units: {item.units} </Text>
-                        <Text>Graduation Year: {item.graduationYear}</Text>
-                        <Text>Unpaid Dues: ${item.unpaidDues.toFixed(2)}</Text>
+                renderItem={({ item }) => (
+                    <StudentCard student={item}
+                        onEdit={() => navigation.navigate('StudentForm', { student: item })}
+                        onDelete={() => deleteStudent(item.id)}
+    />
 
-                        <View style={styles.divider} />
-                        <Text style={styles.derivedLabel}>Academic Standing: {standing}</Text>
-                        <Text style={styles.derivedLabel}>Enrollment Load: {load}</Text>
-                        <Text style={styles.derivedLabel}>Registration Hold: {hold.hasHold ? `Yes (${hold.reason})` : 'In Good Standing'}</Text>
-                        <Text style={styles.derivedLabel}>Risk Level: {level}</Text>
-                    </View>
-                );
-            }}
-            />
+  )}
+/>
         </View>
     );
 }
@@ -86,26 +74,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
     },
-    card: {
-        backgroundColor: '#f9f9f9',
-        padding: 14,
-        borderRadius: 10,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        marginBottom: 12,
-    },
-    name: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 6,
-    },
-    divider: {
-        marginVertical: 10,
-        borderBottomColor: '#ccc',
-        borderBottomWidth: 1,
-    },
-    derivedLabel: {
-        fontWeight: '500',
-        marginBottom: 4,
-    },
+
 });

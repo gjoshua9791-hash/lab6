@@ -24,10 +24,12 @@ export default function StudentCard({student, onEdit, onDelete}) {
             <Text style={styles.derivedLabel}>Registration Hold: {hold.hasHold ? `Yes (${hold.reason})` : 'In Good Standing'}</Text>
             <Text style={styles.derivedLabel}>Risk Level: {risk}</Text>
 
+            {(onEdit || onDelete) && (
             <View style={styles.actions}>
-                <Button title="Edit" onPress={onEdit} />
-                <Button title="Delete" onPress={onDelete} color="red" />
+                {onEdit && <Button title="Edit" onPress={onEdit} />}
+                {onDelete && <Button title="Delete" onPress={onDelete} color="red" />}
             </View>
+    )}
         </View>
     );
 }

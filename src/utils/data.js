@@ -10,7 +10,7 @@ export const sampleData = [
         unpaidDues: 50},
     { id: '4', name: 'Sarah Lee', studentId: '123731', age: 23,
         gpa: 1.5, major: 'Psychology', units: 9, graduationYear: 2028,
-        unpaidDues: 0},
+        unpaidDues: 400},
     { id: '5', name: 'David Kim', studentId: '123732', age: 21,
         gpa: 3.7, major: 'Engineering', units: 15, graduationYear: 2028,
         unpaidDues: 200},

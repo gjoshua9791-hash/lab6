@@ -15,6 +15,11 @@ export default function RecordsScreen() {
     const [filterStanding, setFilterStanding] = useState('All');
     const [showHoldsOnly, setShowHoldsOnly] = useState(false);
 
+    const majorOptions = useMemo(() => {
+    const uniqueMajors = [...new Set(students.map((student) => student.major))];
+        return ['All', ...uniqueMajors.sort()];
+        }, [students]);
+
     const processedStudents = useMemo(() => {
         let results = [...students];
 
@@ -88,11 +93,11 @@ export default function RecordsScreen() {
                     </View>
 
                     <Text>Filter by Major:</Text>
-                    <View style={styles.row}>
-                    <Button title="All" onPress={() => setFilterMajor('All')} />
-                    <Button title="CS" onPress={() => setFilterMajor('Computer Science')} />
-                    <Button title="Business" onPress={() => setFilterMajor('Business')} />
-                    </View>
+                        <View style={styles.row}>
+                            {majorOptions.map((major) => (
+                                <Button key={major} title={major} onPress={() => setFilterMajor(major)}/>
+                            ))}
+                            </View>
 
                     <Text>Filter by Standing:</Text>
                     <View style={styles.row}>

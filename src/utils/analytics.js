@@ -1,4 +1,4 @@
-import { getAcademicStanding, getRegistrationHold } from './utils/derived';
+import { getAcademicStanding, getRegistrationHold } from './derived';
 
 export function getTotalStudents(students) {
     return students.length;
@@ -30,7 +30,7 @@ export function getStatsByMajor(students) {
         result[student.major].count++;
         result[student.major].totalGPA += student.gpa;
         if(getRegistrationHold(student).hasHold) {
-            result[student.major].holds++;
+            result[student.major].holdCount++;
         }
         return result;
     }, {});
